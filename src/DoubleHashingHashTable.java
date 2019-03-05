@@ -23,13 +23,15 @@ public class DoubleHashingHashTable<AnyType> {
 
     /******************************************************
      * Hash table constructors setting up table size
+     * Smallest allowed size is 3
      *******************************************************/
     public DoubleHashingHashTable( ) {
         this(DEFAULT_TABLE_SIZE);
     }
 
     public DoubleHashingHashTable( int size ) {
-	if (size 
+	if (size < 3) size = 3;
+
         allocateArray( size );
         doClear( );
     }
@@ -56,15 +58,15 @@ public class DoubleHashingHashTable<AnyType> {
     public boolean insert( AnyType x ) {
         // Insert x as active
         int currentPos = findPos( x );
-        if( isActive( currentPos ) )
-            /************                                         //TODO: fix up this ish
-             get hash2
-          
-             newposition = (currentPos + i*hash2) mod tablesize
- while !isActive( newposition )
-	currentPos = newpos
+        if( isActive( currentPos ) ) {
+	     int hashStep = myhash2( x );
+	     
+	     do {
+	         newPos = (currentPos + ( i * hashStep )) % array.lenghth;
+	     } while ( isActive( newPos );
 
-             ***************/
+	     currentPos = newPos;
+	} 
 
         array[ currentPos ] = new HashEntry<>( x, true );
         theSize++;
@@ -148,9 +150,7 @@ public class DoubleHashingHashTable<AnyType> {
      *********************************************************/
     private void rehash( ) {
         HashEntry<AnyType> [ ] oldArray = array;
-	
-	prevPrime = oldArray.length;
-	
+		
         // Create a new double-sized, empty table
         allocateArray( 2 * oldArray.length );
         occupiedCt = 0;
@@ -214,14 +214,14 @@ public class DoubleHashingHashTable<AnyType> {
         int hashVal = x.hashCode( );
 
         hashVal %= array.length;
-        if( hashVal < 0 )
-            hashVal += array.length;
+        if( hashVal < 0 )                   
+            hashVal += array.length;        
 
         return hashVal;
     }
 
     private int myhash2( AnyType x ) {
-	return 1 + ( x.key % ( TABLESIZE - 2 ); //TODO: fix up with correct names
+	return 1 + ( x.hashCode % ( array.length - 2 );
     }
 
     /***********************************************************
@@ -250,7 +250,7 @@ public class DoubleHashingHashTable<AnyType> {
     /***********************************************************
      * Internal method to test if a number is prime.
      * Not an efficient algorithm.
-     * @param n the number to test.                              //TODO: fix up this bad algorithm 
+     * @param n the number to test.                             
      * @return the result of the test.
      **********************************************************/
     private static boolean isPrime( int n ) {
@@ -267,6 +267,16 @@ public class DoubleHashingHashTable<AnyType> {
         return true;
     }
 
+/**
+    private static boolean isPrime( int n ) {
+	if( n < 4 ) return n > 1;
+	if( n % 2 == 0 || n % 3 == 0 ) return false;
+	int i = 5;
+	while ( i * i <= n ) {
+	    if ( n % i = 0 || n % ( i + 2 ) = 0 ) return false;
+	    i += 6;
+	return true;
+**/
 
     // Simple main
     public static void main( String [ ] args ) {
