@@ -29,6 +29,7 @@ public class DoubleHashingHashTable<AnyType> {
     }
 
     public DoubleHashingHashTable( int size ) {
+	if (size 
         allocateArray( size );
         doClear( );
     }
@@ -147,7 +148,9 @@ public class DoubleHashingHashTable<AnyType> {
      *********************************************************/
     private void rehash( ) {
         HashEntry<AnyType> [ ] oldArray = array;
-
+	
+	prevPrime = oldArray.length;
+	
         // Create a new double-sized, empty table
         allocateArray( 2 * oldArray.length );
         occupiedCt = 0;
@@ -218,8 +221,7 @@ public class DoubleHashingHashTable<AnyType> {
     }
 
     private int myhash2( AnyType x ) {
-        //Find Specified prime <--- could calculate as global //TODO: track this prime, it must be smaller than table size
-        return PRIME - (PRIME % x.value);
+	return 1 + ( x.key % ( TABLESIZE - 2 ); //TODO: fix up with correct names
     }
 
     /***********************************************************
@@ -248,7 +250,7 @@ public class DoubleHashingHashTable<AnyType> {
     /***********************************************************
      * Internal method to test if a number is prime.
      * Not an efficient algorithm.
-     * @param n the number to test.
+     * @param n the number to test.                              //TODO: fix up this bad algorithm 
      * @return the result of the test.
      **********************************************************/
     private static boolean isPrime( int n ) {
