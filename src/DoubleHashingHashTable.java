@@ -9,8 +9,6 @@
 // void makeEmpty( )      --> Remove all items
 
 
-import javax.security.auth.login.AccountNotFoundException;
-
 /**********************************************************
  * Probing table implementation of hash tables.
  * Note that all "matching" is based on the equals method.
@@ -19,8 +17,7 @@ import javax.security.auth.login.AccountNotFoundException;
 public class DoubleHashingHashTable<AnyType> {
 
     private static final int DEFAULT_TABLE_SIZE = 101;
-    private HashEntry<AnyType> [ ] arrayA;  // The array of elements
-    private HashEntry<AnyType> [ ] arrayB;  // The array of elements
+    private HashEntry<AnyType> [ ] array;   // The array of elements
     private int occupiedCt;                 // The number of occupied cells
     private int theSize;                    // Current size
 
@@ -36,7 +33,7 @@ public class DoubleHashingHashTable<AnyType> {
         doClear( );
     }
 
-    private static class HashEntry<AnyType> {       //TODO: capture multiple count
+    private static class HashEntry<AnyType> {
         public AnyType  element;   // the element
         public boolean isActive;  // false if marked deleted
 
@@ -56,11 +53,8 @@ public class DoubleHashingHashTable<AnyType> {
      * @param x the item to insert.
      *******************************************************/
     public boolean insert( AnyType x ) {
-        return insert( x, 1 );
-    }
-    public boolean insert( AnyType x, int arrayNum ) {
         // Insert x as active
-        int currentPos = findPos( x, arrayNum );
+        int currentPos = findPos( x );
         if( isActive( currentPos ) )
             return false;
 
@@ -104,7 +98,7 @@ public class DoubleHashingHashTable<AnyType> {
      * @param x the item to search for.
      * @return the position where the search terminates.
      **********************************************************/
-    private int findPos( AnyType x, int arrayNum ) {
+    private int findPos( AnyType x ) {
         int offset = 1;
         int currentPos = myhash( x );
 
@@ -221,8 +215,7 @@ public class DoubleHashingHashTable<AnyType> {
      * @param arraySize the size of the array.
      **********************************************************/
     private void allocateArray( int arraySize ) {
-        arrayA = new HashEntry[ nextPrime( arraySize ) ];
-        arrayA = new HashEntry[ nextPrime( arraySize ) ];
+        array = new HashEntry[ nextPrime( arraySize ) ];
     }
 
     /***********************************************************
@@ -263,7 +256,7 @@ public class DoubleHashingHashTable<AnyType> {
 
     // Simple main
     public static void main( String [ ] args ) {
-        DoubleHashingHashTable<String> H = new DoubleHashingHashTable<>();
+        DoubleHashingHashTable<String> H = new DoubleHashingHashTable<>( );
 
 
         long startTime = System.currentTimeMillis( );
