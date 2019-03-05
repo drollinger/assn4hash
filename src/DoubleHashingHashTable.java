@@ -9,6 +9,8 @@
 // void makeEmpty( )      --> Remove all items
 
 
+import javax.security.auth.login.AccountNotFoundException;
+
 /**********************************************************
  * Probing table implementation of hash tables.
  * Note that all "matching" is based on the equals method.
@@ -34,7 +36,7 @@ public class DoubleHashingHashTable<AnyType> {
         doClear( );
     }
 
-    private static class HashEntry<AnyType> {
+    private static class HashEntry<AnyType> {       //TODO: capture multiple count
         public AnyType  element;   // the element
         public boolean isActive;  // false if marked deleted
 
@@ -54,8 +56,11 @@ public class DoubleHashingHashTable<AnyType> {
      * @param x the item to insert.
      *******************************************************/
     public boolean insert( AnyType x ) {
+        return insert( x, 1 );
+    }
+    public boolean insert( AnyType x, int arrayNum ) {
         // Insert x as active
-        int currentPos = findPos( x );
+        int currentPos = findPos( x, arrayNum );
         if( isActive( currentPos ) )
             return false;
 
@@ -99,7 +104,7 @@ public class DoubleHashingHashTable<AnyType> {
      * @param x the item to search for.
      * @return the position where the search terminates.
      **********************************************************/
-    private int findPos( AnyType x ) {
+    private int findPos( AnyType x, int arrayNum ) {
         int offset = 1;
         int currentPos = myhash( x );
 
