@@ -105,16 +105,16 @@ public class DoubleHashingHashTable<AnyType> {
         int currentPos = myhash( x );
 
         if ( array[ currentPos ] != null && !array[ currentPos ].element.equals( x ) ) {
-            int hashStep = myhash2( x );
+            int hashStep = myhash2(x);
             int newPos;
-            int i = 1;
+            int i = 0;
 
             do {
-                newPos = (currentPos + ( i++ * hashStep )) % array.length;
-                if ( newPos < 0 ) newPos += array.length;
-            } while ( array[ newPos ] != null && !array[ newPos ].element.equals( x ) );
+                newPos = (currentPos + (i++ * hashStep)) % array.length;
+                if (newPos < 0) newPos += array.length;
+            } while (array[newPos] != null && !array[newPos].element.equals(x));
 
-            currentPos = newPos;
+            return newPos;
         }
 
         return currentPos;
@@ -219,7 +219,9 @@ public class DoubleHashingHashTable<AnyType> {
     }
 
     private int myhash2( AnyType x ) {
-	return 1 + ( x.hashCode( ) % ( array.length - 2 ) );
+        int hashVal = ( x.hashCode( ) % ( array.length - 2 ) );
+        if (hashVal < 0) hashVal += ( array.length - 2 );
+	    return 1 + hashVal;
     }
 
     /***********************************************************
@@ -265,16 +267,17 @@ public class DoubleHashingHashTable<AnyType> {
         return true;
     }
 
-/**
+    /**
     private static boolean isPrime( int n ) {
-	if( n < 4 ) return n > 1;
-	if( n % 2 == 0 || n % 3 == 0 ) return false;
-	int i = 5;
-	while ( i * i <= n ) {
-	    if ( n % i = 0 || n % ( i + 2 ) = 0 ) return false;
-	    i += 6;
-	return true;
-**/
+        if (n < 4) return n > 1;
+        if (n % 2 == 0 || n % 3 == 0) return false;
+        int i = 5;
+        while (i * i <= n) {
+            if (n % i == 0 || n % (i + 2) == 0) return false;
+            i += 6;
+        }
+        return true;
+    }*/
 
     // Simple main
     public static void main( String [ ] args ) {
