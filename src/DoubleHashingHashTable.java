@@ -58,15 +58,8 @@ public class DoubleHashingHashTable<AnyType> {
     public boolean insert( AnyType x ) {
         // Insert x as active
         int currentPos = findPos( x );
-        if( isActive( currentPos ) ) {
-	     int hashStep = myhash2( x );
-	     
-	     do {
-	         newPos = (currentPos + ( i * hashStep )) % array.lenghth;
-	     } while ( isActive( newPos );
-
-	     currentPos = newPos;
-	} 
+        if( isActive( currentPos ) )
+            return false;
 
         array[ currentPos ] = new HashEntry<>( x, true );
         theSize++;
@@ -109,14 +102,19 @@ public class DoubleHashingHashTable<AnyType> {
      * @return the position where the search terminates.
      **********************************************************/
     private int findPos( AnyType x ) {
-        int offset = 1;
         int currentPos = myhash( x );
 
-        while( array[ currentPos ] != null && !array[ currentPos ].element.equals( x ) ) {
-            currentPos += offset;  // Compute ith probe
-            offset += 2;
-            if( currentPos >= array.length )
-                currentPos -= array.length;
+        if ( array[ currentPos ] != null && !array[ currentPos ].element.equals( x ) ) {
+            int hashStep = myhash2( x );
+            int newPos;
+            int i = 1;
+
+            do {
+                newPos = (currentPos + ( i++ * hashStep )) % array.length;
+                if ( newPos < 0 ) newPos += array.length;
+            } while ( array[ newPos ] != null && !array[ newPos ].element.equals( x ) );
+
+            currentPos = newPos;
         }
 
         return currentPos;
@@ -221,7 +219,7 @@ public class DoubleHashingHashTable<AnyType> {
     }
 
     private int myhash2( AnyType x ) {
-	return 1 + ( x.hashCode % ( array.length - 2 );
+	return 1 + ( x.hashCode( ) % ( array.length - 2 ) );
     }
 
     /***********************************************************
