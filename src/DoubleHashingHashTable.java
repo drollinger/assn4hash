@@ -56,7 +56,14 @@ public class DoubleHashingHashTable<AnyType> {
         // Insert x as active
         int currentPos = findPos( x );
         if( isActive( currentPos ) )
-            return false;
+            /************                                         //TODO: fix up this ish
+             get hash2
+          
+             newposition = (currentPos + i*hash2) mod tablesize
+ while !isActive( newposition )
+	currentPos = newpos
+
+             ***************/
 
         array[ currentPos ] = new HashEntry<>( x, true );
         theSize++;
@@ -208,6 +215,11 @@ public class DoubleHashingHashTable<AnyType> {
             hashVal += array.length;
 
         return hashVal;
+    }
+
+    private int myhash2( AnyType x ) {
+        //Find Specified prime <--- could calculate as global //TODO: track this prime, it must be smaller than table size
+        return PRIME - (PRIME % x.value);
     }
 
     /***********************************************************
