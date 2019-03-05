@@ -20,6 +20,8 @@ public class DoubleHashingHashTable<AnyType> {
     private HashEntry<AnyType> [ ] array;   // The array of elements
     private int occupiedCt;                 // The number of occupied cells
     private int theSize;                    // Current size
+    private int numberOfFinds;              // Times Find is called
+    private int numberOfProbs;              // Times that we probe values
 
     /******************************************************
      * Hash table constructors setting up table size
@@ -30,8 +32,10 @@ public class DoubleHashingHashTable<AnyType> {
     }
 
     public DoubleHashingHashTable( int size ) {
-	if (size < 3) size = 3;
+	    if (size < 3) size = 3;
 
+	    numberOfFinds = 0;
+	    numberOfProbs = 0;
         allocateArray( size );
         doClear( );
     }
@@ -77,6 +81,7 @@ public class DoubleHashingHashTable<AnyType> {
      * @return the matching item.
      **********************************************************/
     public AnyType find( AnyType x ) {
+        numberOfFinds++;
         int currentPos = findPos( x );
         if (!isActive( currentPos )) {
             return null;
@@ -104,7 +109,10 @@ public class DoubleHashingHashTable<AnyType> {
     private int findPos( AnyType x ) {
         int currentPos = myhash( x );
 
-        if ( array[ currentPos ] != null && !array[ currentPos ].element.equals( x ) ) {
+        HashEntry entry = array[ currentPos ];
+        numberOfProbs++;
+
+        if ( entry != null && !entry.element.equals( x ) ) {
             int hashStep = myhash2(x);
             int newPos;
             int i = 0;
@@ -112,7 +120,9 @@ public class DoubleHashingHashTable<AnyType> {
             do {
                 newPos = (currentPos + (i++ * hashStep)) % array.length;
                 if (newPos < 0) newPos += array.length;
-            } while (array[newPos] != null && !array[newPos].element.equals(x));
+                entry = array[newPos];
+                numberOfProbs++;
+            } while (entry != null && !entry.element.equals(x));
 
             return newPos;
         }
@@ -160,22 +170,11 @@ public class DoubleHashingHashTable<AnyType> {
                 insert( entry.element );
     }
 
-    /*******************************************************
-     * The toString method override
-     * prints out ???????????
-     * @param limit ??
-     *******************************************************/
-    public String toString (int limit){
-        StringBuilder sb = new StringBuilder();
-        int ct=0;
-        for (int i=0; i < array.length && ct < limit; i++){
-            if (array[i]!=null && array[i].isActive) {
-                sb.append( i + ": " + array[i].element + "\n" );
-                ct++;
-            }
-        }
-        return sb.toString();
-    }
+
+
+
+
+
 
     /***********************************************************
      * Get current size.
@@ -192,6 +191,41 @@ public class DoubleHashingHashTable<AnyType> {
     public int capacity( ) {
         return array.length;
     }
+
+    /*******************************************************
+     * The toString method override
+     * prints out certain HashTable information depending on
+     * specified type of info needed
+     * @param type, limit <- type is what is wanted, limit is for
+     *       printing out certain # of entries when type="entries"
+     *******************************************************/
+    public String toString (String type){
+        switch (type.toLowerCase()) {
+            case "probs": return numberOfProbs+"\n";
+            case "finds": return numberOfFinds+"\n";
+            case "items": return size()+"\n";
+            case "length": return capacity()+"\n";
+            default: return this.toString();
+        }
+    }
+
+    public String toString (String type, int limit) {
+        if (type.toLowerCase().equals("entries")) return this.toString(limit);
+        else return this.toString();
+    }
+
+    private String toString (int limit){
+        StringBuilder sb = new StringBuilder();
+        int ct=0;
+        for (int i=0; i < array.length && ct < limit; i++){
+            if (array[i]!=null && array[i].isActive) {
+                sb.append( i + "\t:\t" + array[i].element + "\n" );
+                ct++;
+            }
+        }
+        return sb.toString();
+    }
+
 
     /***********************************************************
      * Return true if currentPos exists and is active.
@@ -266,18 +300,6 @@ public class DoubleHashingHashTable<AnyType> {
 
         return true;
     }
-
-    /**
-    private static boolean isPrime( int n ) {
-        if (n < 4) return n > 1;
-        if (n % 2 == 0 || n % 3 == 0) return false;
-        int i = 5;
-        while (i * i <= n) {
-            if (n % i == 0 || n % (i + 2) == 0) return false;
-            i += 6;
-        }
-        return true;
-    }*/
 
     // Simple main
     public static void main( String [ ] args ) {

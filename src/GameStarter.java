@@ -3,8 +3,13 @@ import java.util.Scanner;
 
 public class GameStarter {
 
+    private DoubleHashingHashTable<WordInfo> HashTable;
     private String name;
-    private QuadraticProbingHashTable<WordInfo> HashTable;
+    private int totalScore;
+
+    public GameStarter(){
+        HashTable = new DoubleHashingHashTable<>();
+    }
 
     class WordInfo {
 
@@ -33,10 +38,11 @@ public class GameStarter {
         public int hashCode() {
             return this.word.hashCode();
         }
-    }
 
-    public GameStarter(){
-        HashTable = new QuadraticProbingHashTable<WordInfo>();
+        @Override
+        public String toString() {
+            return word + new String(new char[Math.abs(16 - word.length()) + 1]).replace("\0", " ") + count;
+        }
     }
 
     public int computeScore(WordInfo w) {
@@ -48,15 +54,16 @@ public class GameStarter {
         int lengthValue = w.word.length() < 8 ? w.word.length() - 2 : 6;
         if (lengthValue < 0) lengthValue = 0;
 
-        int bonus = w.count < 15 ? 5 - (int)Math.ceil((double)w.count/5) : 1;
+        int bonus = w.count <= 15 ? 5 - (int)Math.ceil((double)w.count/5) : 1;
 
-        String spacing = new String(new char[20 - w.word.length()]).replace("\0", " ");
-        System.out.println(w.word + spacing + lengthValue + "\t\t\t...\t\t\t" + letterScore + "\t\t\t...\t\t\t" + bonus);
+        //String spacing = new String(new char[20 - w.word.length()]).replace("\0", " ");
+        //System.out.println(w.word + spacing + lengthValue + "\t\t\t...\t\t\t" + letterScore + "\t\t\t...\t\t\t" + bonus + "\t\t" + w.count);
         return letterScore * lengthValue * bonus;
     }
 
     public void playGame(String filename){
 
+        this.name = filename;
         int totalScore = 0;
 
         try {
@@ -78,9 +85,7 @@ public class GameStarter {
                 }
             }
 
-            System.out.println("====================================================================\n\n" +
-                    filename + ": " + totalScore + "\n\n" +
-                    "====================================================================\n\n\n\n");
+            this.totalScore = totalScore;
 
             fileScan.close();
         } catch (FileNotFoundException e) {
@@ -89,27 +94,44 @@ public class GameStarter {
     }
 
     public String toString() {
+
         int LIMIT = 20;
-        return name+ "\n"+ HashTable.toString(LIMIT);
+        StringBuilder sb = new StringBuilder();
+        sb.append("==========================\n\t\t" + name +
+                "\n==========================\n");
+        sb.append("Total Score: " + totalScore + "\n");
+        sb.append("# of finds: " + HashTable.toString("finds"));
+        sb.append("# of probs: " + HashTable.toString("probs"));
+        sb.append("# of items: " + HashTable.toString("items"));
+        sb.append("Table Length: " + HashTable.toString("length"));
+        sb.append("\n-----First " + LIMIT + " Entries" + "-----\n");
+        sb.append(HashTable.toString("entries", LIMIT));
+        sb.append("--------------------------\n\n");
+
+        return sb.toString();
     }
 
     public static void main( String [ ] args ) {
         try {
             GameStarter g0 = new GameStarter(  );
             g0.playGame("game0.txt" );
-            //System.out.println(g0);
+            System.out.println(g0);
+
             GameStarter g1 = new GameStarter(  );
             g1.playGame("game1.txt" );
-            //System.out.println(g1);
+            System.out.println(g1);
+
             GameStarter g2 = new GameStarter(  );
             g2.playGame("game2.txt" );
-            //System.out.println(g2);
+            System.out.println(g2);
+
             GameStarter g3 = new GameStarter(  );
             g3.playGame("game3.txt" );
-            //System.out.println(g3);
+            System.out.println(g3);
+
             GameStarter g4 = new GameStarter(  );
             g4.playGame("game4.txt" );
-            //System.out.println(g4);
+            System.out.println(g4);
         }
         catch(Exception e){
            e.printStackTrace();
