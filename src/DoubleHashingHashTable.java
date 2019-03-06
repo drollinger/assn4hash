@@ -1,4 +1,4 @@
-// QuadraticProbing Hash table class
+// DoubleHashing Hash table class
 //
 // CONSTRUCTION: an approximate initial size or default of 101
 //
@@ -170,12 +170,6 @@ public class DoubleHashingHashTable<AnyType> {
                 insert( entry.element );
     }
 
-
-
-
-
-
-
     /***********************************************************
      * Get current size.
      * @return the size.
@@ -217,9 +211,12 @@ public class DoubleHashingHashTable<AnyType> {
     private String toString (int limit){
         StringBuilder sb = new StringBuilder();
         int ct=0;
+        String space;
+        int size;
         for (int i=0; i < array.length && ct < limit; i++){
             if (array[i]!=null && array[i].isActive) {
-                sb.append( i + "\t:\t" + array[i].element + "\n" );
+                space = new String(new char[(int)Math.log10((double)array.length) - (int)Math.log10((double)i == 0 ? 1 : i)]).replace("\0", " ");
+                sb.append( i + space + ":  " + array[i].element + "\n" );
                 ct++;
             }
         }

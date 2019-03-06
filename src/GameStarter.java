@@ -46,6 +46,7 @@ public class GameStarter {
     }
 
     public int computeScore(WordInfo w) {
+
         int[] letterValue = {1, 3, 3, 2, 1,  4, 2, 4, 1, 8, 5, 1, 3, 1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8,  4, 10};
         int letterScore = 0;
         for (int i=0; i < w.word.length(); i++)
@@ -56,8 +57,6 @@ public class GameStarter {
 
         int bonus = w.count <= 15 ? 5 - (int)Math.ceil((double)w.count/5) : 1;
 
-        //String spacing = new String(new char[20 - w.word.length()]).replace("\0", " ");
-        //System.out.println(w.word + spacing + lengthValue + "\t\t\t...\t\t\t" + letterScore + "\t\t\t...\t\t\t" + bonus + "\t\t" + w.count);
         return letterScore * lengthValue * bonus;
     }
 
@@ -97,7 +96,7 @@ public class GameStarter {
 
         int LIMIT = 20;
         StringBuilder sb = new StringBuilder();
-        sb.append("==========================\n\t\t" + name +
+        sb.append("==========================\n        " + name +
                 "\n==========================\n");
         sb.append("Total Score: " + totalScore + "\n");
         sb.append("# of finds: " + HashTable.toString("finds"));
@@ -136,8 +135,5 @@ public class GameStarter {
         catch(Exception e){
            e.printStackTrace();
         }
-
-
     }
-
 }

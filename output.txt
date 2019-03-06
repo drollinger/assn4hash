@@ -1,0 +1,150 @@
+==========================
+        game0.txt
+==========================
+Total Score: 2708
+# of finds: 16
+# of probs: 28
+# of items: 12
+Table Length: 101
+
+-----First 20 Entries-----
+3  :  committee        0
+17 :  lose             0
+23 :  accord           0
+35 :  fish             0
+39 :  zion             0
+43 :  minute           0
+49 :  consider         1
+55 :  queue            3
+58 :  dog              0
+59 :  win              0
+61 :  stack            0
+69 :  draw             0
+--------------------------
+
+
+==========================
+        game1.txt
+==========================
+Total Score: 10761
+# of finds: 111
+# of probs: 389
+# of items: 71
+Table Length: 211
+
+-----First 20 Entries-----
+0  :  cause            0
+1  :  ride             0
+2  :  from             0
+6  :  best             0
+7  :  wear             0
+10 :  her              0
+14 :  days             0
+15 :  least            0
+17 :  the              3
+20 :  stick            0
+24 :  upon             1
+29 :  poem             0
+30 :  month            0
+33 :  beneath          0
+35 :  all              0
+37 :  thread           0
+40 :  one              5
+46 :  your             3
+48 :  kitchen          0
+55 :  swing            0
+--------------------------
+
+
+==========================
+        game2.txt
+==========================
+Total Score: 2991
+# of finds: 46
+# of probs: 65
+# of items: 13
+Table Length: 101
+
+-----First 20 Entries-----
+3  :  them             4
+11 :  anywhere         0
+12 :  green            2
+40 :  ham              2
+46 :  there            1
+53 :  you              1
+60 :  here             1
+63 :  like             8
+70 :  and              2
+79 :  eggs             2
+86 :  not              6
+88 :  that             2
+89 :  would            2
+--------------------------
+
+
+==========================
+        game3.txt
+==========================
+Total Score: 113251
+# of finds: 1206
+# of probs: 3722
+# of items: 438
+Table Length: 1733
+
+-----First 20 Entries-----
+2   :  beautiful        4
+12  :  mind             0
+14  :  merely           0
+22  :  blessed          0
+29  :  imaginations     0
+30  :  page             2
+36  :  with             20
+39  :  yes              0
+48  :  suddenly         0
+52  :  sign             0
+61  :  hopes            0
+64  :  heard            1
+70  :  prophet          3
+73  :  passion          0
+80  :  heart            4
+85  :  rise             0
+86  :  called           1
+87  :  fact             0
+88  :  not              4
+91  :  now              6
+--------------------------
+
+
+==========================
+        game4.txt
+==========================
+Total Score: 24254
+# of finds: 249
+# of probs: 862
+# of items: 132
+Table Length: 431
+
+-----First 20 Entries-----
+3  :  bed              0
+9  :  worked           0
+11 :  over             0
+12 :  cried            0
+16 :  soul             0
+21 :  you              0
+26 :  with             3
+27 :  cross            0
+29 :  lost             0
+30 :  funny            3
+31 :  who              0
+32 :  bent             0
+33 :  outside          0
+41 :  why              1
+42 :  had              2
+45 :  shoulders        0
+51 :  saint            0
+53 :  whole            0
+54 :  hearts           0
+56 :  that             0
+--------------------------
+
+
