@@ -97,7 +97,7 @@ public class GameStarter {
             Scanner fileScan = new Scanner(file);
             while (fileScan.hasNext()) {
 
-                WordInfo newWord = new WordInfo(fileScan.next());
+                WordInfo newWord = new WordInfo(fileScan.next().toLowerCase());
 
                 WordInfo oldWord = HashTable.find(newWord);
 
